@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Astro can load all .md files in the /pages folder
+const posts = Object.values(import.meta.glob('./*.md', { eager: true }));
+---
+
+<Layout title="Wild & Waves Blog">
+  <section class="mb-10 text-center">
+    <h1 class="text-3xl font-bold">Wild & Waves Blog</h1>
+    <p class="text-gray-600 mt-2">Camping, kayaking & Peak District weekends</p>
+  </section>
+
+  <ul class="space-y-6 max-w-3xl mx-auto">
+    {posts.map((post: any) => (
+      <li class="p-5 border rounded-xl hover:shadow-sm">
+        <a href={`/${post.url}`} class="text-xl font-semibold">{post.frontmatter?.title ?? 'Untitled'}</a>
+        {post.frontmatter?.publishDate && (
+          <div class="text-sm text-gray-500 mt-1">{post.frontmatter.publishDate}</div>
+        )}
+        {post.frontmatter?.description && (
+          <p class="mt-2 text-gray-700">{post.frontmatter.description}</p>
+        )}
+      </li>
+    ))}
+  </ul>
+</Layout>
